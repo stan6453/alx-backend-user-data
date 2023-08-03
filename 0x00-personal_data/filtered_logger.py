@@ -31,4 +31,3 @@ def filter_datum(fields: List[str],
     """
     return re.sub(fr'\b({"|".join(fields)})=(.*?){separator}',
                   fr'\1={redaction}{separator}', message)
-
