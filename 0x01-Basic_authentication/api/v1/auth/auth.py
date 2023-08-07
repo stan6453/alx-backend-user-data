@@ -5,7 +5,8 @@ from flask import request
 from typing import TypeVar, List
 
 
-def require_auth_for_dynamic_path(path: str, excluded_paths: List[str]) -> bool:
+def require_auth_for_dynamic_path(path: str,
+                                  excluded_paths: List[str]) -> bool:
     """returns true if partial path requires authentication"""
     if len(excluded_paths) == 0:
         return True
