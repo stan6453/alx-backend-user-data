@@ -26,6 +26,7 @@ elif auth_type == 'basic_auth':
 
 @app.before_request
 def filter_requests():
+    """authentication middleware"""
     if auth is None:
         return
 
