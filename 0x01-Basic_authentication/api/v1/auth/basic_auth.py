@@ -5,6 +5,7 @@ from api.v1.auth.auth import Auth
 import base64
 from typing import Tuple
 
+
 class BasicAuth(Auth):
     """basic auth"""
 
@@ -44,6 +45,6 @@ class BasicAuth(Auth):
             return None, None
         if decoded_base64_authorization_header.find(':') == -1:
             return None, None
-        
+
         result = decoded_base64_authorization_header.split(':')
         return result[0], result[1]
