@@ -3,7 +3,7 @@
 
 from api.v1.auth.auth import Auth
 import base64
-
+from typing import Tuple
 
 class BasicAuth(Auth):
     """basic auth"""
@@ -34,3 +34,16 @@ class BasicAuth(Auth):
             return base64_str
         except Exception:
             return None
+
+    def extract_user_credentials(
+            self,
+            decoded_base64_authorization_header: str) -> Tuple[str, str]:
+        """extract user's credentials"""
+        if decoded_base64_authorization_header is None or\
+                type(decoded_base64_authorization_header) is not str:
+            return None, None
+        if decoded_base64_authorization_header.find(':') == -1:
+            return None, None
+        
+        result = decoded_base64_authorization_header.split(':')
+        return result[0], result[1]
