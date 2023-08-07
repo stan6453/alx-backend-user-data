@@ -25,7 +25,7 @@ elif auth_type == 'basic_auth':
 
 
 @app.before_request
-def filter_requests()-> None:
+def filter_requests() -> None:
     """authentication middleware"""
     if auth is None:
         return
@@ -52,7 +52,7 @@ def not_found(error) -> str:
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """ unauthorized.
-    This error handler is executed by calling abort(401) 
+    This error handler is executed by calling abort(401)
     """
     return jsonify({"error": "Unauthorized"}), 401
 
@@ -60,7 +60,7 @@ def unauthorized(error) -> str:
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """ forbidden.
-    This error handler is executed by calling abort(403) 
+    This error handler is executed by calling abort(403)
     """
     return jsonify({"error": "Forbidden"}), 403
 
