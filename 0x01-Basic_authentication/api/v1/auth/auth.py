@@ -5,12 +5,12 @@ from flask import request
 from typing import TypeVar, List
 
 
-def verify_partial_path(path: str, excluded_paths: List[str]) -> bool:
+def require_auth_for_dynamic_path(path: str, excluded_paths: List[str]) -> bool:
     """returns true if partial path requires authentication"""
     if len(excluded_paths) == 0:
         return True
     for item in excluded_paths:
-        if path.startswith(item[:-1]):
+        if path[:-1].startswith(item[:-1]):
             return False
     return True
 
@@ -20,20 +20,27 @@ class Auth():
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """returns true if path requires authentication"""
+        verify_dynamic_path = False
+        verify_fixed_path = False
+
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
 
         if path[-1] != '/':
             path += '/'
 
-        full_path = [path1 for path1 in excluded_paths if not path1.find('*')]
+        fixed_path = [
+            path1 for path1 in excluded_paths if not path1.endswith('*')]
         # path like : ["/api/v1/stat*"]
-        partial_path = [
+        dynamic_path = [
             path1 for path1 in excluded_paths if path1.endswith('*')]
 
-        if path not in full_path or verify_partial_path(path, partial_path):
-            return True
-        return False
+        if path not in fixed_path:
+            verify_fixed_path = True
+        if require_auth_for_dynamic_path(path, dynamic_path):
+            verify_dynamic_path = True
+
+        return verify_fixed_path and verify_dynamic_path
 
     def authorization_header(self, request=None) -> str:
         """get auth info from the authorization header"""
