@@ -3,13 +3,13 @@
 """
 from api.v1.views import app_views
 from models.user import User
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 from os import getenv
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> str:
-    """User login logic"""
+    """Authenticate user and create a session for logged-in user"""
     user_email = request.form.get('email')
     password = request.form.get('password')
 
@@ -39,3 +39,13 @@ def login() -> str:
     response = make_response(auth_user.to_json())
     response.set_cookie(session_cookie_name, session_id)
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout() -> str:
+    """destroy the current user session"""
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
