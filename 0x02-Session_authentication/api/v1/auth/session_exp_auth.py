@@ -42,7 +42,8 @@ class SessionExpAuth(SessionAuth):
             session_id)
         if session_dictionary is None:
             return None
-        # if there is no session_duration on cookie expiry, then no need to check
+        # if there is no session_duration on cookie expiry,
+        # then no need to check
         if self.session_duration <= 0:
             return session_dictionary.get('user_id')
         # else, if there is session duration, make sure that the key created_at
