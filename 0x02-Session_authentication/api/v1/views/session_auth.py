@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Module of Users views
+""" Module of login and logout views
 """
 from api.v1.views import app_views
 from models.user import User
