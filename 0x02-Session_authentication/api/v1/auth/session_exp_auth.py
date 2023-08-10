@@ -38,8 +38,6 @@ class SessionExpAuth(SessionAuth):
         """
         if session_id is None:
             return None
-        if session_id not in session_dictionary:
-            return None
         session_dictionary = SessionExpAuth.user_id_by_session_id.get(
             session_id)
         if session_dictionary is None:
@@ -50,4 +48,5 @@ class SessionExpAuth(SessionAuth):
         if datetime.timestamp(created_at) + self.session_duration <=\
                 datetime.timestamp(datetime.now()):
             return None
-        return session_dictionary.get('user_id')
+        if self.session_duration <= 0:
+            return session_dictionary.get('user_id')
