@@ -11,7 +11,6 @@ class SessionExpAuth(SessionAuth):
     user_id_by_session_id = {}
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
         try:
             self.session_duration = int(getenv('SESSION_DURATION'))
         except Exception:
