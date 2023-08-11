@@ -27,8 +27,6 @@ class SessionDBAuth(SessionExpAuth):
     def user_id_for_session_id(self, session_id=None):
         """returns a User ID based on a given Session ID
         """
-        with open('i_am_tired', 'a') as f:
-            f.write(f'created_at called')
         if session_id is None:
             return None
         session_object = UserSession.get(session_id)
