@@ -42,9 +42,6 @@ class SessionDBAuth(SessionExpAuth):
             return None
         created_at = getattr(session_object, 'created_at', None)
 
-        with open('i_am_tired', 'a') as f:
-            f.write(f'created_at {created_at}')
-
         if datetime.timestamp(created_at) + self.session_duration <=\
                 datetime.timestamp(datetime.now()):
             return None
