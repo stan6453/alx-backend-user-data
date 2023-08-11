@@ -42,9 +42,9 @@ class SessionDBAuth(SessionExpAuth):
             return None
         created_at = getattr(session_object, 'created_at', None)
 
-        if datetime.timestamp(created_at) + self.session_duration <=\
-                datetime.timestamp(datetime.now()):
-            return None
+        # if datetime.timestamp(created_at) + self.session_duration <=\
+        #         datetime.timestamp(datetime.utcnow()):
+        #     return None
         return getattr(session_object, 'user_id', None)
 
     def destroy_session(self, request=None):
