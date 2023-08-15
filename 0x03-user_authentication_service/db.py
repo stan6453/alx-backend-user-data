@@ -4,8 +4,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
 
@@ -45,6 +45,6 @@ class DB:
         try:
             return self._session.query(User).filter_by(**kwargs).first()
         except NoResultFound:
-            raise NoResultFound("No user found with the specified arguments.")
+            raise NoResultFound
         except InvalidRequestError:
-            raise InvalidRequestError("Invalid query arguments.")
+            raise InvalidRequestError
