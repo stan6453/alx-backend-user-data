@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from user import Base, User
+from typing import TypeVar
 
 
 class DB:
@@ -29,7 +30,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """Add a new user to the database
         """
         new_user = User(email=email, hashed_password=hashed_password)
