@@ -2,8 +2,8 @@
 """AUTH module
 """
 from db import DB
+from user import User
 import bcrypt
-from typing import TypeVar, Union
 from sqlalchemy.orm.exc import NoResultFound
 
 
@@ -20,9 +20,10 @@ class Auth:
     """
 
     def __init__(self):
+        """initialize auth instance"""
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> Union[None,TypeVar('User')]:
+    def register_user(self, email: str, password: str) -> User:
         """Register a new user"""
         try:
             self._db.find_user_by(email=email)
