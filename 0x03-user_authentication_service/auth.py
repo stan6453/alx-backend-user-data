@@ -3,7 +3,7 @@
 """
 from db import DB
 import bcrypt
-from typing import TypeVar
+from typing import TypeVar, Union
 from sqlalchemy.orm.exc import NoResultFound
 
 
@@ -22,7 +22,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> Union[None,TypeVar('User')]:
         """Register a new user"""
         try:
             self._db.find_user_by(email=email)
