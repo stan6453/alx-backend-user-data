@@ -3,6 +3,7 @@
 """
 from db import DB
 from user import User
+from typing import Union
 import bcrypt
 import uuid
 from sqlalchemy.orm.exc import NoResultFound
@@ -56,3 +57,11 @@ class Auth:
             return None
         self._db.update_user(user.id, session_id=session_id)
         return session_id
+
+    def get_user_from_session_id(self, session_id: str) -> Union[User,None]:
+        """return a user object based on a given session_id"""
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            return user
+        except NoResultFound:
+            return None
