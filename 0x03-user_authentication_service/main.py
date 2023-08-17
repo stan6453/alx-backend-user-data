@@ -27,14 +27,14 @@ def log_in_wrong_password(email: str, password: str):
 
 
 def profile_unlogged():
-    """Test creating new user endpoint"""
+    """Test Checking profile while unlogged (no session ID)."""
     response = requests.get("{}/profile".format(BASE_URL))
     assert response.status_code == 403
     print("Profile unlogged")
 
 
 def log_in(email: str, password: str):
-    """desc"""
+    """Log in with the provided email and password and return the session ID."""
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
@@ -43,7 +43,7 @@ def log_in(email: str, password: str):
 
 
 def profile_logged(session_id: str):
-    """desc"""
+    """Check profile while logged in with the given session ID."""
     response = requests.get("{}/profile".format(BASE_URL),
                             cookies={"session_id": session_id})
     assert response.status_code == 200
@@ -51,7 +51,7 @@ def profile_logged(session_id: str):
 
 
 def log_out(session_id: str):
-    """desc"""
+    """Log out using the provided session ID."""
     response = requests.delete(
         "{}/sessions".format(BASE_URL), cookies={"session_id": session_id})
     assert response.status_code == 302
@@ -59,7 +59,7 @@ def log_out(session_id: str):
 
 
 def reset_password_token(email: str):
-    """desc"""
+    """Request a reset password token for the given email."""
     response = requests.post(
         "{}/reset_password".format(BASE_URL), data={"email": email})
     assert response.status_code == 200
@@ -69,7 +69,7 @@ def reset_password_token(email: str):
 
 
 def update_password(email: str, reset_token: str, new_password: str):
-    """desc"""
+    """Update password using the provided reset token and new password."""
     response = requests.put(
         "{}/reset_password".format(BASE_URL),
         data={"email": email, "reset_token": reset_token,
