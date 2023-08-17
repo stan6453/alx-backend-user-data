@@ -36,7 +36,7 @@ def log_in(email: str, password: str):
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
-    assert response.cookies.get("session_id") != None
+    assert response.cookies.get("session_id") is not None
 
 
 def profile_logged(session_id: str):
