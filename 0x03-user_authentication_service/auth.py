@@ -47,7 +47,7 @@ class Auth:
             return False
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
 
-    def create_session(self, email: str) -> bool:
+    def create_session(self, email: str):
         """creates and stores a new user session in the DB"""
         session_id = _generate_uuid()
         try:
