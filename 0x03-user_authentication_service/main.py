@@ -34,7 +34,8 @@ def profile_unlogged():
 
 
 def log_in(email: str, password: str):
-    """Log in with the provided email and password and return the session ID."""
+    """Log in with the provided email and password
+    and return the session ID."""
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
