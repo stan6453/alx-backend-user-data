@@ -15,7 +15,6 @@ def register_user(email: str, password: str):
         "{}/users".format(BASE_URL), data={"email": email,
                                            "password": password})
     assert response.status_code == 200
-    print("User registered")
 
 
 def log_in_wrong_password(email: str, password: str):
@@ -23,14 +22,12 @@ def log_in_wrong_password(email: str, password: str):
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 401
-    print("Logged in with wrong password")
 
 
 def profile_unlogged():
     """Test Checking profile while unlogged (no session ID)."""
     response = requests.get("{}/profile".format(BASE_URL))
     assert response.status_code == 403
-    print("Profile unlogged")
 
 
 def log_in(email: str, password: str):
@@ -39,7 +36,6 @@ def log_in(email: str, password: str):
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
-    print("Logged in")
     return response.cookies.get("session_id")
 
 
@@ -48,7 +44,6 @@ def profile_logged(session_id: str):
     response = requests.get("{}/profile".format(BASE_URL),
                             cookies={"session_id": session_id})
     assert response.status_code == 200
-    print("Profile logged")
 
 
 def log_out(session_id: str):
@@ -56,7 +51,6 @@ def log_out(session_id: str):
     response = requests.delete(
         "{}/sessions".format(BASE_URL), cookies={"session_id": session_id})
     assert response.status_code == 302
-    print("Logged out")
 
 
 def reset_password_token(email: str):
@@ -65,7 +59,6 @@ def reset_password_token(email: str):
         "{}/reset_password".format(BASE_URL), data={"email": email})
     assert response.status_code == 200
     data = response.json()
-    print("Reset password token:", data["reset_token"])
     return data["reset_token"]
 
 
@@ -77,7 +70,6 @@ def update_password(email: str, reset_token: str, new_password: str):
               "new_password": new_password}
     )
     assert response.status_code == 200
-    print("Password updated")
 
 
 EMAIL = "guillaume@holberton.io"
