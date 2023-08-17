@@ -36,7 +36,7 @@ def log_in(email: str, password: str):
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
-    return response.cookies.get("session_id")
+    assert response.cookies.get("session_id") != None
 
 
 def profile_logged(session_id: str):
@@ -59,7 +59,7 @@ def reset_password_token(email: str):
         "{}/reset_password".format(BASE_URL), data={"email": email})
     assert response.status_code == 200
     data = response.json()
-    return data["reset_token"]
+    assert data["reset_token"] is not None
 
 
 def update_password(email: str, reset_token: str, new_password: str):
