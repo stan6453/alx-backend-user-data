@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
- End-to-end integration test 
+ End-to-end integration test
 """
 
 
@@ -12,7 +12,8 @@ BASE_URL = "http://localhost:5000"
 def register_user(email: str, password: str):
     """Test creating new user endpoint"""
     response = requests.post(
-        "{}/users".format(BASE_URL), data={"email": email, "password": password})
+        "{}/users".format(BASE_URL), data={"email": email,
+                                           "password": password})
     assert response.status_code == 200
     print("User registered")
 
@@ -33,6 +34,7 @@ def profile_unlogged():
 
 
 def log_in(email: str, password: str):
+    """desc"""
     response = requests.post("{}/sessions".format(BASE_URL),
                              data={"email": email, "password": password})
     assert response.status_code == 200
@@ -41,6 +43,7 @@ def log_in(email: str, password: str):
 
 
 def profile_logged(session_id: str):
+    """desc"""
     response = requests.get("{}/profile".format(BASE_URL),
                             cookies={"session_id": session_id})
     assert response.status_code == 200
@@ -48,6 +51,7 @@ def profile_logged(session_id: str):
 
 
 def log_out(session_id: str):
+    """desc"""
     response = requests.delete(
         "{}/sessions".format(BASE_URL), cookies={"session_id": session_id})
     assert response.status_code == 302
@@ -55,6 +59,7 @@ def log_out(session_id: str):
 
 
 def reset_password_token(email: str):
+    """desc"""
     response = requests.post(
         "{}/reset_password".format(BASE_URL), data={"email": email})
     assert response.status_code == 200
@@ -64,8 +69,12 @@ def reset_password_token(email: str):
 
 
 def update_password(email: str, reset_token: str, new_password: str):
-    response = requests.put("{}/reset_password".format(BASE_URL),
-                            data={"email": email, "reset_token": reset_token, "new_password": new_password})
+    """desc"""
+    response = requests.put(
+        "{}/reset_password".format(BASE_URL),
+        data={"email": email, "reset_token": reset_token,
+              "new_password": new_password}
+    )
     assert response.status_code == 200
     print("Password updated")
 
