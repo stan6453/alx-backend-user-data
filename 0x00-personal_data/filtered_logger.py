@@ -4,7 +4,6 @@ import mysql.connector
 import re
 from typing import List, Sequence
 import logging
-import os
 from os import getenv
 
 PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'name')
@@ -74,32 +73,9 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """gets a new connector to the database"""
-    """
-    Connect to the Holberton database and return a database connector.
-
-    Returns:
-        mysql.connector.connection.MySQLConnection: A database connection object.
-    """
-    # Retrieve database credentials from environment variables.
-    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    database_name = os.getenv("PERSONAL_DATA_DB_NAME")
-
-    # Check if the database name is provided.
-    if not database_name:
-        raise ValueError(
-            "PERSONAL_DATA_DB_NAME environment variable is not set.")
-
-    # Establish a database connection.
-    try:
-        db_connection = mysql.connector.connect(
-            user=username,
-            password=password,
-            host=host,
-            database=database_name
-        )
-        return db_connection
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return None
+    return mysql.connector.connect(
+        user=getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        password=getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        host=getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=getenv('PERSONAL_DATA_DB_NAME')
+    )
