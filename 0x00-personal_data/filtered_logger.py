@@ -3,6 +3,7 @@
 import re
 from typing import List
 import logging
+import sys
 
 
 PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
@@ -64,7 +65,7 @@ def get_logger() -> logging.Logger:
     logger.setLevel(logging.INFO)
     logger.propagate = False
     formatter = RedactingFormatter(fields=PII_FIELDS)
-    stream_handler = logging.StreamHandler()
+    stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     return logger
