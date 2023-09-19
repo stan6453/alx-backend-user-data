@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """TODO : Desc"""
-import mysql.connector
 import re
-from typing import List, Sequence
 import logging
 from os import getenv
+import mysql.connector
+from typing import List, Sequence
+import bcrypt
 
 PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'name')
 
@@ -79,3 +80,32 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         host=getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
         database=getenv('PERSONAL_DATA_DB_NAME')
     )
+
+
+def main():
+    """
+    retrieve all rows in the users table
+    and display each row under a filtered format
+    """
+    db_con = get_db()
+    cursor = db_con.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    lines = []
+    for record in cursor:
+        fields = []
+        for key, value in record.items():
+            fields.append('{}={}'.format(key, value))
+        lines.append('; '.join(fields))
+
+    logger = get_logger()
+    for line in lines:
+        logger.info(line)
+
+
+def hash_password(password: str) -> bytes:
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+
+if __name__ == '__main__':
+    main()
