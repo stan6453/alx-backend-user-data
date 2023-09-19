@@ -5,7 +5,6 @@ import logging
 from os import getenv
 import mysql.connector
 from typing import List, Sequence
-import bcrypt
 
 PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'name')
 
@@ -102,9 +101,7 @@ def main():
         logger.info(line)
 
 
-def hash_password(password: str) -> bytes:
-    salt = bcrypt.gensalt()
-    return bcrypt.hashpw(password.encode('utf-8'), salt)
+
 
 
 if __name__ == '__main__':
