@@ -73,15 +73,33 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    """ Implement db conectivity
+    """gets a new connector to the database"""
     """
-    psw = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
-    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', "root")
-    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
-    db_name = os.environ.get('PERSONAL_DATA_DB_NAME')
-    conn = mysql.connector.connect(
-        host=host,
-        database=db_name,
-        user=username,
-        password=psw)
-    return conn
+    Connect to the Holberton database and return a database connector.
+
+    Returns:
+        mysql.connector.connection.MySQLConnection: A database connection object.
+    """
+    # Retrieve database credentials from environment variables.
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    database_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    # Check if the database name is provided.
+    if not database_name:
+        raise ValueError(
+            "PERSONAL_DATA_DB_NAME environment variable is not set.")
+
+    # Establish a database connection.
+    try:
+        db_connection = mysql.connector.connect(
+            user=username,
+            password=password,
+            host=host,
+            database=database_name
+        )
+        return db_connection
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return None
