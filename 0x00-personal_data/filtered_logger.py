@@ -58,7 +58,7 @@ def filter_datum(fields: List[str],
                   fr'\1={redaction}{separator}', message)
 
 
-def get_logger():
+def get_logger() -> logging.Logger:
     """Creates a new logger using the custom RedactingFormatter as formatter"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
