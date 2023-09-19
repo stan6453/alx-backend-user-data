@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """TODO : Desc"""
+import mysql.connector
 import re
 from typing import List, Sequence
 import logging
-import sys
-
+from os import getenv
 
 PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'name')
 
@@ -69,3 +69,13 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """returns a connector to the database"""
+    return mysql.connector.connect(
+        user=getenv('PERSONAL_DATA_DB_USERNAME'),
+        password=getenv('PERSONAL_DATA_DB_PASSWORD'),
+        host=getenv('PERSONAL_DATA_DB_HOST'),
+        database=getenv('PERSONAL_DATA_DB_NAME')
+    )
