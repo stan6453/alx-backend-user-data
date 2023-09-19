@@ -6,7 +6,7 @@ import logging
 import sys
 
 
-PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
+PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'name')
 
 
 class RedactingFormatter(logging.Formatter):
